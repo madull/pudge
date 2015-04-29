@@ -6,5 +6,6 @@ public class Test03 {
 
         System.out.println(f1 == f2);
         System.out.println(f3 == f4);
+		System.out.println(f3 == f4);
     }
 }
