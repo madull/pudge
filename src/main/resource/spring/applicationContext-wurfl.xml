@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2011 ScientiaMobile Inc.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    Refer to the COPYING file distributed with this package.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       default-autowire="no">
+
+    <!-- WURFLEngine, automatically exported in ServletContext, if you need outside Spring. See Javadoc -->
+	<bean id="WURFLEngine" class="net.sourceforge.wurfl.core.GeneralWURFLEngine">
+		
+		<constructor-arg index="0" value="classpath:/wurfl.zip" />
+		<!-- <constructor-arg index="1" value="<< patch here >>"/> -->
+		<!-- <constructor-arg index="2" value="<< more patches here >>"/> -->
+		
+	         <property name="engineTarget" value="performance" /> 
+		
+		<!-- <property name="engineTarget" value="accuracy" /> -->
+		
+		<property name="cacheProvider" ref="deviceCacheProvider" />
+		
+		<!-- set the list of the capablities to be loaded from the wurfl database
+		     notice that the list here below contains the capabilities required by
+		     the helloworld to work correctly -->
+		<property name="capabilityFilter">
+			<set>
+			    <value>device_os</value>
+				<value>device_os_version</value>
+				<value>is_tablet</value>
+				<value>is_wireless_device</value>
+				<value>pointing_method</value>
+				<value>preferred_markup</value>
+				<value>resolution_height</value>
+				<value>resolution_width</value>
+				<value>ux_full_desktop</value>
+				<value>xhtml_support_level</value>
+				<value>xhtmlmp_preferred_mime_type</value>
+				<value>is_smarttv</value>
+				<value>can_assign_phone_number</value>
+			</set>
+		</property>
+		
+	</bean>
+	
+	<bean id="deviceCacheProvider" class="net.sourceforge.wurfl.core.cache.LRUMapCacheProvider" />
+</beans>

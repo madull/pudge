@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+                             http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+         version="2.5" >
+     
+    <!-- 区分项目名称，防止默认重名 -->
+    <display-name>pudge</display-name>
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>maven.pudge.root</param-value>
+    </context-param>
+    <context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/config/log4j.properties</param-value>
+	</context-param>
+ 
+    <!-- Spring的log4j监听器 -->
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+ 
+    <!-- 字符集 过滤器  -->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+     
+    <!-- 设置Spring容器加载配置文件路径 -->
+    <servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:spring/applicationContext.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+     
+    <!-- Spring会创建一个WebApplicationContext上下文，称为父上下文（父容器） ，保存在 ServletContext中，key是WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE的值。
+    可以使用Spring提供的工具类取出上下文对象：WebApplicationContextUtils.getWebApplicationContext(ServletContext);
+      
+    DispatcherServlet是一个Servlet,可以同时配置多个，每个 DispatcherServlet有一个自己的上下文对象（WebApplicationContext），称为子上下文（子容器），子上下文可以访问父上下文中的内容，
+    但父上下文不能访问子上下文中的内容。 它也保存在 ServletContext中，key是"org.springframework.web.servlet.FrameworkServlet.CONTEXT"+Servlet名称。当一个Request对象产生时，
+    会把这个子上下文对象（WebApplicationContext）保存在Request对象中，key是DispatcherServlet.class.getName() + ".CONTEXT"。
+    可以使用工具类取出上下文对象：RequestContextUtils.getWebApplicationContext(request);-->
+
+<!-- ######################################Druid################################################### -->
+        <filter>
+	    <filter-name>DruidWebStatFilter</filter-name>
+	    <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+	    <init-param>
+	        <param-name>exclusions</param-name>
+	        <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+	    </init-param>
+	  </filter>
+	  <filter-mapping>
+	    <filter-name>DruidWebStatFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+
+	 <servlet>
+      <servlet-name>DruidStatView</servlet-name>
+      <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    <init-param>
+        <param-name>allow</param-name>
+        <param-value>127.0.0.2/24,128.242.128.1</param-value>
+    </init-param>
+    <init-param>
+        <param-name>deny</param-name>
+        <param-value>128.242.127.4</param-value>
+    </init-param>
+  </servlet>
+	<servlet-mapping>
+	    <servlet-name>DruidStatView</servlet-name>
+	    <url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- <init-param>
+        <param-name>sessionStatMaxCount</param-name>
+        <param-value>1000</param-value>
+    </init-param>
+    
+    <init-param>
+        <param-name>principalSessionName</param-name>
+        <param-value>xxx.user</param-value>
+    </init-param> -->
+    
+    <!-- ######################################################################################### -->
+     
+     <session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+     
+    <welcome-file-list>
+        <welcome-file>/login.jsp</welcome-file>
+    </welcome-file-list>
+ 
+</web-app>

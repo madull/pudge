@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+contextPath:${rc.contextPath}<br/>
+<#list bikeAreaLogs as bikeAreaLog>
+站点日志编号 : ${bikeAreaLog.bikeAreaLogId}&nbsp;&nbsp;站点编号${bikeAreaLog.bikeAreaNos}&nbsp;&nbsp;站点名称${bikeAreaLog.bikeAreaNames}&nbsp;&nbsp;可还${bikeAreaLog.areaRentNums}&nbsp;&nbsp;站点名称${bikeAreaLog.areaReturnNums}创建时间${bikeAreaLog.createTime}</br>
+
+</#list>
+</body>
+</html>
